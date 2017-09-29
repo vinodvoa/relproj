@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<title>Product Solutions Group</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style media="screen">
+  header {
+    top: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+  }
+
+  footer {
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    text-align: center;
+  }
+</style>
+
+<body>
+
+<header class="w3-container w3-teal">
+  <h1>Product Solutions Group</h1>
+</header>
+<br>
+<br>
+<br>
+
+<!-- Nav Bar -->
+<div class="w3-container w3-bar w3-black w3-border">
+    <a href="{% url 'home' %}">
+        <i class="w3-left w3-xxlarge fa fa-home"></i>
+    </a>
+
+    <div class="w3-dropdown-hover">
+        <button class="w3-button w3-large">Release</button>
+
+        <div class="w3-dropdown-content w3-bar-block w3-card-4">
+            <a href="#" class="w3-bar-item w3-button">Asia</a>
+            <a href="{% url 'emeasumm' %}" class="w3-bar-item w3-button">EMEA</a>
+            <a href="#" class="w3-bar-item w3-button">CTS</a>
+        </div>
+    </div>
+
+    <div class="w3-dropdown-hover">
+        <button class="w3-button w3-large">Calendar</button>
+
+        <div class="w3-dropdown-content w3-bar-block w3-card-4">
+            <a href="#" class="w3-bar-item w3-button">Asia</a>
+            <a href="{% url 'emeacal' %}" class="w3-bar-item w3-button">EMEA</a>
+            <a href="#" class="w3-bar-item w3-button">CTS</a>
+        </div>
+    </div>
+
+    <div class="w3-dropdown-hover">
+        <button class="w3-button w3-large">Insert</button>
+
+        <div class="w3-dropdown-content w3-bar-block w3-card-4">
+            <a href="{% url 'emeaadd' %}" class="w3-bar-item w3-button">Project</a>
+            <a href="{% url 'emeaadde0' %}" class="w3-bar-item w3-button">E0</a>
+            <a href="{% url 'emeaadde1' %}" class="w3-bar-item w3-button">E1</a>
+            <a href="{% url 'emeacaladd' %}" class="w3-bar-item w3-button">Calendar</a>
+        </div>
+    </div>
+
+    <div class="w3-dropdown-hover">
+        <button class="w3-button w3-large">Edit</button>
+
+        <div class="w3-dropdown-content w3-bar-block w3-card-4">
+            <a href="{% url 'emeaeditprj' %}" class="w3-bar-item w3-button">Project</a>
+            <a href="{% url 'emeaedite0' %}" class="w3-bar-item w3-button">E0</a>
+            <a href="{% url 'emeaedite1' %}" class="w3-bar-item w3-button">E1</a>
+        </div>
+    </div>
+
+    <a href="#" class="w3-bar-item w3-button w3-large">Resource</a>
+
+    <div class="w3-dropdown-hover">
+        <button class="w3-button w3-large">Contact</button>
+
+        <div class="w3-dropdown-content w3-bar-block w3-card-4">
+            <a href="#" class="w3-bar-item w3-button">Asia</a>
+            <a href="{% url 'emeacontact' %}" class="w3-bar-item w3-button">EMEA</a>
+            <a href="#" class="w3-bar-item w3-button">CTS</a>
+        </div>
+    </div>
+
+    <a href="#" class="w3-bar-item w3-button w3-large">About</a>
+
+    <!-- Search -->
+    <form class="w3-right w3-large" action="{% url 'emeasearch' %}" method="POST">
+        {% csrf_token %}
+        <input type="text" class="w3-bar-item w3-input"
+         placeholder="OPPM|PV|Release" name='srch'>
+        <button class="w3-button" type="submit">
+            <i class="fa fa-search"></i>
+        </button>
+    </form>
+</div>
+<br>
+
+<!-- Add / Edit / Delete buttons -->
+<div class="w3-xlarge">
+    <div class="w3-container w3-right">
+      <a href="{% url 'emeaadd' %}">
+          <i class="fa fa-plus"></i>
+      </a>
+
+      <a href="#">
+        <i class="fa fa-edit"></i>
+      </a>
+
+      <a href="#">
+        <i class="fa fa-trash"></i>
+      </a>
+    </div>
+</div>
+
+<!-- Title -->
+<div class="w3-container w3-center">
+  <h4><b>EMEA Project : {{ project.oppm }} - {{ project.title }}</b></h4>
+</div>
+
+<br>
+
+<!-- Project info Card -->
+<div class="w3-container">
+  <div class="w3-container w3-pale-green">
+    <h4><b>Project Info</b></h4>
+  </div>
+</div>
+
+<div class="w3-container">
+  <div class="w3-row-padding">
+    <div class="w3-panel w3-card-2 w3-light-grey">
+      <div class="w3-col s6 w3-light-grey">
+        <p><b>OPPM              :</b> {{ project.oppm }} - {{ project.title }}</p>
+        <p><b>Release           :</b> {{ project.release }}</p>
+        <p><b>Planview          :</b> {{ project.pv }}</p>
+        <p><b>Funding           :</b> {{ project.funding }}</p>
+        <p><b>Impacted Countries:</b> {{ project.impactedcountries }}</p>
+        <p><b>Imapcted PPs      :</b> {{ project.impactedpps }}</p>
+        <p><b>BSG Lead BA       :</b> {{ project.bsgleadba }}</p>
+        <p><b>BSG BA            :</b> {{ project.bsgba }}</p>
+        <p><b>Project Manager   :</b> {{ project.pm }}</p>
+      </div>
+
+      <div class="w3-col s6 w3-light-grey">
+        <p><b>Request Channel   :</b> {{ project.requestchannel }}</p>
+        <p><b>Inv Type          :</b> {{ project.invtype }}</p>
+        <p><b>Inv Category      :</b> {{ project.invcat }}</p>
+        <p><b>Inv Sub Category  :</b> {{ project.invsubcat }}</p>
+        <p><b>Remarks           :</b> {{ project.remarks }}</p>
+        <p><b>Status            :</b> {{ project.status }}</p>
+        <p><b>Added Date        :</b> {{ project.adddte }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Card 2 -->
+<div class="w3-container">
+  <div class="w3-container w3-pale-green">
+    <h4><b>E0 Efforts</b></h4>
+  </div>
+</div>
+
+<div class="w3-container">
+  <div class="w3-row-padding">
+    <div class="w3-panel w3-card-2 w3-light-grey">
+        <!-- Table -->
+        <div class="w3-container">
+          <table class="w3-table w3-bordered w3-striped">
+            <tr>
+                <th>Module</th>
+                <th>E0</th>
+            </tr>
+
+            {% for e0 in e0.all  %}
+            <tr>
+                <td>{{ e0.e0module }}</td>
+                <td>{{ e0.e0efforts }}</td>
+            </tr>
+            {% endfor %}
+
+          </table>
+        </div>
+    </div>
+  </div>
+</div>
+
+<!-- Card 3 -->
+<div class="w3-container">
+  <div class="w3-container w3-pale-green">
+    <h4><b>E1 Efforts</b></h4>
+  </div>
+</div>
+
+<div class="w3-container">
+  <div class="w3-row-padding">
+    <div class="w3-panel w3-card-2 w3-light-grey">
+        <!-- Table -->
+        <div class="w3-container">
+          <table class="w3-table w3-bordered w3-striped">
+            <tr>
+                <th>Module</th>
+                <th>E1</th>
+            </tr>
+
+            {% for e1 in e1.all  %}
+            <tr>
+                <td>{{ e1.e1module }}</td>
+                <td>{{ e1.e1efforts }}</td>
+            </tr>
+            {% endfor %}
+
+          </table>
+        </div>
+    </div>
+  </div>
+</div>
+<br>
+<br>
+
+<!-- Footer -->
+<footer class="w3-container w3-small w3-teal">
+  <p>Footer information goes here</p>
+</footer>
+
+</body>
+</html>

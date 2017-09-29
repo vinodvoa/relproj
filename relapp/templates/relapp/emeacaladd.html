@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+{% extends "relapp/base.html" %}
+
+{% block content %}
+
+<!-- Form -->
+<div class="w3-container">
+   <div class="w3-panel w3-card-2 w3-light-grey">
+      <div class="w3-row-padding">
+         <!-- Col 1 -->
+         <form class="w3-container w3-card-8" method='POST' action='{% url 'emeacaladd' %}' name="addcalform">
+            {% csrf_token %}
+            <br>
+            <div class="w3-col w3-container w3-light-grey" style="width:25%">
+               <div class="w3-group">
+                  <label class="w3-label w3-medium" for="release"><b>Release</b></label>
+                  <input class="w3-input w3-light-grey" type="text" style="width:80%"
+                   required id="release" name="release" placeholder="R[1-4]-yyyy">
+               </div>
+               <br>
+
+               <div class="w3-group">
+                  <label class="w3-label w3-medium"><b>Planning Start Date</b></label>
+                  <input class="w3-input w3-light-grey" type="date" style="width:80%"
+                   required id="planstrtdte" name="planstrtdte" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+                   placeholder="yyyy-mm-dd">
+               </div>
+               <br>
+
+               <div class="w3-group">
+                  <label class="w3-label w3-medium"><b>Planning End Date</b></label>
+                  <input class="w3-input w3-light-grey" type="date" style="width:80%"
+                   id="planenddte" name="planenddte" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+                   placeholder="yyyy-mm-dd">
+               </div>
+               <br>
+
+               <div class="w3-group">
+                 <label class="w3-label w3-medium"><b>Initiation Start Date</b></label>
+                 <input class="w3-input w3-light-grey" type="date" style="width:80%"
+                  id="initstrtdte" name="initstrtdte" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+                  placeholder="yyyy-mm-dd">
+               </div>
+               <br>
+
+               <div class="w3-group">
+                 <label class="w3-label w3-medium"><b>Initiation End Date</b></label>
+                 <input class="w3-input w3-light-grey" type="date" style="width:80%"
+                  id="initenddte" name="initenddte" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+                  placeholder="yyyy-mm-dd">
+               </div>
+               <br>
+            </div>
+
+           <!-- Col 2 -->
+           <div class="w3-col w3-container w3-light-grey" style="width:25%">
+             <div class="w3-group">
+                <label class="w3-label w3-medium"><b>Definition Start Date</b></label>
+                <input class="w3-input w3-light-grey" type="date" style="width:80%"
+                 id="defstrtdte" name="defstrtdte" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+                 placeholder="yyyy-mm-dd">
+            </div>
+            <br>
+
+            <div class="w3-group">
+               <label class="w3-label w3-medium"><b>Definition End Date</b></label>
+               <input class="w3-input w3-light-grey" type="date" style="width:80%"
+                id="defenddte" name="defenddte" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+                placeholder="yyyy-mm-dd">
+            </div>
+            <br>
+
+            <div class="w3-group">
+               <label class="w3-label w3-medium"><b>Design Start Date</b></label>
+               <input class="w3-input w3-light-grey" type="date" style="width:80%"
+                id="desstrtdte" name="desstrtdte" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+                placeholder="yyyy-mm-dd">
+            </div>
+            <br>
+
+            <div class="w3-group">
+               <label class="w3-label w3-medium"><b>Design End Date</b></label>
+               <input class="w3-input w3-light-grey" type="date" style="width:80%"
+                id="desenddte" name="desenddte" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+                placeholder="yyyy-mm-dd">
+            </div>
+            <br>
+          </div>
+
+          <!-- Col 3 -->
+          <div class="w3-col w3-container w3-light-grey" style="width:25%">
+             <div class="w3-group">
+                <label class="w3-label w3-medium"><b>Construction Start Date</b></label>
+                <input class="w3-input w3-light-grey" type="date" style="width:80%"
+                 id="constrtdte" name="constrtdte" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+                 placeholder="yyyy-mm-dd">
+            </div>
+            <br>
+
+            <div class="w3-group">
+               <label class="w3-label w3-medium"><b>Construction End Date</b></label>
+               <input class="w3-input w3-light-grey" type="date" style="width:80%"
+                id="conenddte" name="conenddte" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+                placeholder="yyyy-mm-dd">
+            </div>
+            <br>
+
+            <div class="w3-group">
+               <label class="w3-label w3-medium"><b>Validation SIT Start Date</b></label>
+               <input class="w3-input w3-light-grey" type="date" style="width:80%"
+                id="sitstrtdte" name="sitstrtdte" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+               placeholder="yyyy-mm-dd">
+            </div>
+            <br>
+
+            <div class="w3-group">
+               <label class="w3-label w3-medium"><b>Validation SIT End Date</b></label>
+               <input class="w3-input w3-light-grey" type="date" style="width:80%"
+                id="sitenddte" name="sitenddte" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+                placeholder="yyyy-mm-dd">
+            </div>
+            <br>
+          </div>
+
+          <!-- col 4 -->
+          <div class="w3-col w3-container w3-light-grey" style="width:25%">
+             <div class="w3-group">
+                <label class="w3-label w3-medium"><b>Validation UAT Start Date</b></label>
+                <input class="w3-input w3-light-grey" type="date" style="width:80%"
+                 id="uatstrtdte" name="uatstrtdte" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+                 placeholder="yyyy-mm-dd">
+            </div>
+            <br>
+
+            <div class="w3-group">
+               <label class="w3-label w3-medium"><b>Validation UAT End Date</b></label>
+               <input class="w3-input w3-light-grey" type="date" style="width:80%"
+                id="uatenddte" name="uatenddte" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+                placeholder="yyyy-mm-dd">
+            </div>
+            <br>
+
+            <div class="w3-group">
+               <label class="w3-label w3-medium"><b>Implementation Start Date</b></label>
+               <input class="w3-input w3-light-grey" type="date" style="width:80%"
+                id="implstrtdte" name="implstrtdte" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+                placeholder="yyyy-mm-dd">
+            </div>
+            <br>
+
+            <div class="w3-group">
+               <label class="w3-label w3-medium"><b>Implementation End Date</b></label>
+               <input class="w3-input w3-light-grey" type="date" style="width:80%"
+                id="implenddte" name="implenddte" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+                placeholder="yyyy-mm-dd">
+            </div>
+            <br>
+
+            <div class="w3-container">
+               <button class="w3-btn w3-teal w3-round-xxlarge" name="reset">Reset</button>
+               <input type="submit" value="Add" name="add" class="w3-btn w3-round-xxlarge w3-teal">
+            </div>
+            <br>
+          </div>
+       </form>
+    </div> <!-- 3 -->
+</div> <!-- 2 -->
+</div> <!-- 1 -->
+<br>
+<br>
+
+{% endblock %}
