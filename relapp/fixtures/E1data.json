@@ -1,0 +1,112 @@
+[
+   {
+      "model": "relapp.E1",
+      "pk": "1",
+      "fields":{
+         "e1oppm": "E-1111111",
+         "e1module": "ADS",
+         "e1efforts": 10.00,
+         "e1providedte": "2017-10-02"
+      }
+   },
+   {
+      "model": "relapp.E1",
+      "pk": "2",
+      "fields":{
+         "e1oppm": "E-2222222",
+         "e1module": "CDE",
+         "e1efforts": 20.00,
+         "e1providedte": "2017-10-02"
+      }
+   },
+   {
+      "model": "relapp.E1",
+      "pk": "3",
+      "fields":{
+         "e1oppm": "E-3333333",
+         "e1module": "EAS",
+         "e1efforts": 30.00,
+         "e1providedte": "2017-10-02"
+      }
+   },
+   {
+      "model": "relapp.E1",
+      "pk": "4",
+      "fields":{
+         "e1oppm": "E-4444444",
+         "e1module": "ECMS",
+         "e1efforts": 40.00,
+         "e1providedte": "2017-10-02"
+      }
+   },
+   {
+      "model": "relapp.E1",
+      "pk": "5",
+      "fields":{
+         "e1oppm": "E-5555555",
+         "e1module": "Alerts",
+         "e1efforts": 50.00,
+         "e1providedte": "2017-10-02"
+      }
+   },
+   {
+      "model": "relapp.E1",
+      "pk": "6",
+      "fields":{
+         "e1oppm": "E-6666666",
+         "e1module": "ELTS",
+         "e1efforts": 60.00,
+         "e1providedte": "2017-10-02"
+      }
+   },
+   {
+      "model": "relapp.E1",
+      "pk": "7",
+      "fields":{
+         "e1oppm": "E-7777777",
+         "e1module": "Embossing",
+         "e1efforts": 70.00,
+         "e1providedte": "2017-10-02"
+      }
+   },
+   {
+      "model": "relapp.E1",
+      "pk": "8",
+      "fields":{
+         "e1oppm": "E-8888888",
+         "e1module": "EPP",
+         "e1efforts": 80.00,
+         "e1providedte": "2017-10-02"
+      }
+   },
+   {
+      "model": "relapp.E1",
+      "pk": "9",
+      "fields":{
+         "e1oppm": "E-9999999",
+         "e1module": "FASB",
+         "e1efforts": 90.00,
+         "e1providedte": "2017-10-02"
+      }
+   },
+   {
+      "model": "relapp.E1",
+      "pk": "10",
+      "fields":{
+         "e1oppm": "E-100000",
+         "e1module": "MLI",
+         "e1efforts": 15.00,
+         "e1providedte": "2017-10-02"
+      }
+   },
+   {
+      "model": "relapp.E1",
+      "pk": "11",
+      "fields":{
+         "e1oppm": "E-1000001",
+         "e1module": "RWS",
+         "e1efforts": 16.00,
+         "e1providedte": "2017-10-02"
+         }
+      }
+]
