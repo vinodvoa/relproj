@@ -21,4 +21,4 @@ urlpatterns = [
     url(r'^emeacal/', views.emeacal, name='emeacal'),
     url(r'^emeacaladd/', views.emeacaladd, name='emeacaladd'),
     url(r'^emeacontact/', views.emeacontact, name='emeacontact'),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
