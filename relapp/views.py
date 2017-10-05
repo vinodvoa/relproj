@@ -6,7 +6,7 @@ from django.db.models import Sum
 
 from .models import Project, E0, E1, RelCalendar
 
-from datetime import date
+from datetime import date, datetime
 import time
 import re
 
@@ -16,148 +16,251 @@ def home(request):
 
 
 def emeasumm(request):
-    # Determine Phase
-    # today = date.today() #yyyy-mm-dd
-    # mth = today.month
-    #
-    # # if mth in range()
-    # year = today.year
-
-    # releaseid = 'R1-2018'
-    #
-    # try:
-    #     release = get_object_or_404(RelCalendar, pk=releaseid)
-    # except Exception as e:
-    #     print('Not Found')
-    #
-    # print(today)
-    # tupledate = []
-    # tupledate.append(release.initstartdte)
-    # print(date.year(tupledate[0]))
-    # print(time.strftime('%Y-%m-%d',tupledate))
-
-    # if today in range(release.planningstartdte, release.planningenddte):
-    #     phase = 'Planning'
-    # elif today in range(release.initstartdte, release.initenddte):
-    #     phase = 'Initiation'
-    # elif today in range(release.defnstartdte, release.defnenddte):
-    #     phase = 'Definition'
-    # elif today in range(release.designstartdte, release.designenddte):
-    #     phase = 'Design'
-    # elif today in range(release.constrstartdte, release.constrenddte):
-    #     phase = 'Construction'
-    # elif today in range(release.valsitstartdte, release.valsitenddte):
-    #     phase = 'SIT'
-    # elif today in range(release.valuatstartdte, release.valuatenddte):
-    #     phase = 'UAT'
-    # elif today in range(release.implstartdte, release.implenddte):
-    #     phase = 'Implementation'
-    #
-    # print(phase)
-
-    # count of OPPMs
     summary = {}
 
+    # Determine Phase
+    today = date.today().strftime('%Y-%m-%d')
+
+    releaseid = 'R1-2018'
+
+    try:
+        release = get_object_or_404(RelCalendar, pk=releaseid)
+    except Exception as e:
+        print('Not Found')
+
+    if release.planningstartdte.strftime('%Y-%m-%d') <= today <= release.planningenddte.strftime('%Y-%m-%d'):
+        phase = 'Planning'
+        summary['startdte'] = release.planningstartdte.strftime('%Y-%m-%d')
+        summary['enddte'] = release.planningenddte.strftime('%Y-%m-%d')
+    elif release.initstartdte.strftime('%Y-%m-%d') <= today <= release.initenddte.strftime('%Y-%m-%d'):
+        phase = 'Initiation'
+        summary['startdte'] = release.initstartdte.strftime('%Y-%m-%d')
+        summary['enddte'] = release.initenddte.strftime('%Y-%m-%d')
+    elif release.defnstartdte.strftime('%Y-%m-%d')  <= today <= release.defnenddte.strftime('%Y-%m-%d'):
+        phase = 'Definition'
+        summary['startdte'] = release.defnstartdte.strftime('%Y-%m-%d')
+        summary['enddte'] = release.defnenddte.strftime('%Y-%m-%d')
+    elif release.designstartdte.strftime('%Y-%m-%d')  <= today <= release.designenddte.strftime('%Y-%m-%d'):
+        phase = 'Design'
+        summary['startdte'] = release.designstartdte.strftime('%Y-%m-%d')
+        summary['enddte'] = release.designenddte.strftime('%Y-%m-%d')
+    elif release.constrstartdte.strftime('%Y-%m-%d')  <= today <= release.constrenddte.strftime('%Y-%m-%d'):
+        phase = 'Construction'
+        summary['startdte'] = release.constrstartdte.strftime('%Y-%m-%d')
+        summary['enddte'] = release.constrenddte.strftime('%Y-%m-%d')
+    elif release.valsitstartdte.strftime('%Y-%m-%d')  <= today <= release.valsitenddte.strftime('%Y-%m-%d'):
+        phase = 'SIT'
+        summary['startdte'] = release.valsitstartdte.strftime('%Y-%m-%d')
+        summary['enddte'] = release.valsitenddte.strftime('%Y-%m-%d')
+    elif release.valuatstartdte.strftime('%Y-%m-%d')  <= today <= release.valuatenddte.strftime('%Y-%m-%d'):
+        phase = 'UAT'
+        summary['startdte'] = release.valuatstartdte.strftime('%Y-%m-%d')
+        summary['enddte'] = release.valuatenddte.strftime('%Y-%m-%d')
+    elif release.implstartdte.strftime('%Y-%m-%d')  <= today <= release.implenddte.strftime('%Y-%m-%d'):
+        phase = 'Implementation'
+        summary['startdte'] = release.implstartdte.strftime('%Y-%m-%d')
+        summary['enddte'] = release.implenddte.strftime('%Y-%m-%d')
+
+    summary['phase'] = phase
+
+    # count of OPPMs
     summary['oppmcount'] = Project.objects.filter(release='R1-2018').count()
 
-    # status count
+    # Project list
+    projects = Project.objects.filter(release='R1-2018')
+
+    # Total release E0 & E1
+    e0effort = {}
+    e1effort = {}
+    e0sum = 0
+    e1sum = 0
+    e0 = 0
+    e1 = 0
+
+    for project in projects:
+        e0qset = E0.objects.filter(e0oppm__exact=project.oppm)
+        for qs in e0qset:
+            e0effort['e0'] = qs.e0efforts
+            e0sum += qs.e0efforts
+
+        e1qset = E1.objects.filter(e1oppm__exact=project.oppm)
+        for qs in e1qset:
+            e1effort['e1'] = qs.e1efforts
+            e1sum += qs.e1efforts
+
+    e0summ = {}
+    e0summ['e0summ'] = e0sum
+
+    e1summ = {}
+    e1summ['e1summ'] = e1sum
+
+    # oppm status count
+    summary['analysis_wip_count'] = Project.objects.filter(
+        release='R1-2018', status='Analysis WIP').count()
+
+    summary['canc_count'] = Project.objects.filter(
+        release='R1-2018', status='Canceled').count()
+
+    summary['E1_provided_count'] = Project.objects.filter(
+        release='R1-2018', status='E1 Provided').count()
+
+    summary['E1_review_dev_count'] = Project.objects.filter(
+        release='R1-2018', status='E1 Review by Dev').count()
+
+    summary['E1_wip_count'] = Project.objects.filter(
+        release='R1-2018', status='E1 WIP').count()
+
+    summary['FR_int_review_wip_count'] = Project.objects.filter(
+        release='R1-2018', status='FR Internal Review WIP').count()
+
+    summary['FR_na_count'] = Project.objects.filter(
+        release='R1-2018', status='FR NA').count()
+
+    summary['FR_signed_off_count'] = Project.objects.filter(
+        release='R1-2018', status='FR Signed Off').count()
+
+    summary['FR_wip_count'] = Project.objects.filter(
+        release='R1-2018', status='FR WIP').count()
+
+    summary['no_cards_impact_count'] = Project.objects.filter(
+        release='R1-2018', status='No Cards Impact').count()
+
+    summary['pend_clarification_biz_count'] = Project.objects.filter(
+        release='R1-2018', status='Pending Clarification from Biz').count()
+
+    summary['pend_FR_walkthru_count'] = Project.objects.filter(
+        release='R1-2018', status='Pending FR Walk Thru').count()
+
     summary['pend_req_count'] = Project.objects.filter(
         release='R1-2018', status='Pending Requirements').count()
 
-    summary['pend_clar_count'] = Project.objects.filter(
-        release='R1-2018', status='Pending Clarifications').count()
+    summary['sow_count'] = Project.objects.filter(
+        release='R1-2018', status='SOW').count()
 
-    summary['pend_e0wip_count'] = Project.objects.filter(
-        release='R1-2018', status='E0 WIP').count()
-
-    summary['pend_e1wip_count'] = Project.objects.filter(
-        release='R1-2018', status='E1 WIP').count()
-
-    # # total E0 by status
-    # pend_req_sum_e0 = Project.objects.filter(
-    #     status='Pending Requirements').aggregate(Sum('status'))
-    # print(pend_req_sum_e0)
+    # E0 efforts by status
+    # for project in projects:
+    #     statusqset = Project.objects.filter(status__exact = 'Analysis WIP').
+    #         E0.objects.filter(e0oppm__exact=project.oppm)
+    #     for qs in e0qset:
+    #         e0effort['e0'] = qs.e0efforts
+    #         e0sum += qs.e0efforts
     #
-    # pend_clar_sum_e0 = Project.objects.filter(
-    #     status='Pending Clarifications').aggregate(Sum('status'))
-    # print(pend_clar_sum_e0)
+    #     e1qset = E1.objects.filter(e1oppm__exact=project.oppm)
+    #     for qs in e1qset:
+    #         e1effort['e1'] = qs.e1efforts
+    #         e1sum += qs.e1efforts
     #
-    # pend_e0wip_sum_e0 = Project.objects.filter(
-    #     status='E0 WIP').aggregate(Sum('status'))
-    # print(pend_e0wip_sum_e0)
+    # e0summ = {}
+    # e0summ['e0summ'] = e0sum
     #
-    # pend_e1wip_sum_e0 = Project.objects.filter(
-    #     status='E1 WIP').aggregate(Sum('status'))
-    # print(pend_e1wip_sum_e0)
+    # e1summ = {}
+    # e1summ['e1summ'] = e1sum
 
     # E0 efforts by application
-    summary['ads_e0'] = E0.objects.filter(
-        e0module='ADS').aggregate(Sum('e0efforts'))
-    summary['cde_e0'] = E0.objects.filter(
-        e0module='CDE').aggregate(Sum('e0efforts'))
-    summary['eas_e0'] = E0.objects.filter(
-        e0module='EAS').aggregate(Sum('e0efforts'))
-    summary['ba_e0'] = E0.objects.filter(
-        e0module='BA').aggregate(Sum('e0efforts'))
-    summary['ecms_e0'] = E0.objects.filter(
-        e0module='ECMS').aggregate(Sum('e0efforts'))
-    summary['elts_e0'] = E0.objects.filter(
-        e0module='ELTS').aggregate(Sum('e0efforts'))
-    summary['emb_e0'] = E0.objects.filter(
-        e0module='Emb').aggregate(Sum('e0efforts'))
-    summary['epp_e0'] = E0.objects.filter(
-        e0module='EPP').aggregate(Sum('e0efforts'))
-    summary['fasb_e0'] = E0.objects.filter(
-        e0module='FASB').aggregate(Sum('e0efforts'))
-    summary['mli_e0'] = E0.objects.filter(
-        e0module='MLI').aggregate(Sum('e0efforts'))
-    summary['rws_e0'] = E0.objects.filter(
-        e0module='RWS').aggregate(Sum('e0efforts'))
-    summary['stmts_e0'] = E0.objects.filter(
-        e0module='STMTS').aggregate(Sum('e0efforts'))
-    summary['ss_e0'] = E0.objects.filter(
-        e0module='SS').aggregate(Sum('e0efforts'))
-    summary['trams_e0'] = E0.objects.filter(
-        e0module='TRIAD').aggregate(Sum('e0efforts'))
-    summary['utility_e0'] = E0.objects.filter(
-        e0module='UTILITY').aggregate(Sum('e0efforts'))
+    ads = E0.objects.filter(e0module='ADS').aggregate(ads_e0=Sum('e0efforts'))
+    summary['ads_e0'] = ads['ads_e0']
+
+    cde = E0.objects.filter(e0module='CDE').aggregate(cde_e0=Sum('e0efforts'))
+    summary['cde_e0'] = cde['cde_e0']
+
+    eas = E0.objects.filter(e0module='EAS').aggregate(eas_e0=Sum('e0efforts'))
+    summary['eas_e0'] = eas['eas_e0']
+
+    ba = E0.objects.filter(e0module='BA').aggregate(ba_e0=Sum('e0efforts'))
+    summary['ba_e0'] = ba['ba_e0']
+
+    ecms = E0.objects.filter(e0module='ECMS').aggregate(ecms_e0=Sum('e0efforts'))
+    summary['ecms_e0'] = ecms['ecms_e0']
+
+    elts = E0.objects.filter(e0module='ELTS').aggregate(elts_e0=Sum('e0efforts'))
+    summary['elts_e0'] = elts['elts_e0']
+
+    emb = E0.objects.filter(e0module='Emb').aggregate(emb_e0=Sum('e0efforts'))
+    summary['emb_e0'] = emb['emb_e0']
+
+    epp = E0.objects.filter(e0module='EPP').aggregate(epp_e0=Sum('e0efforts'))
+    summary['epp_e0'] = epp['epp_e0']
+
+    fasb = E0.objects.filter(e0module='FASB').aggregate(fasb_e0=Sum('e0efforts'))
+    summary['fasb_e0'] = fasb['fasb_e0']
+
+    mli = E0.objects.filter(e0module='MLI').aggregate(mli_e0=Sum('e0efforts'))
+    summary['mli_e0'] = mli['mli_e0']
+
+    rws = E0.objects.filter(e0module='RWS').aggregate(rws_e0=Sum('e0efforts'))
+    summary['rws_e0'] = rws['rws_e0']
+
+    stmts= E0.objects.filter(e0module='STMTS').aggregate(stmts_e0=Sum('e0efforts'))
+    summary['stmts_e0'] = stmts['stmts_e0']
+
+    ss = E0.objects.filter(e0module='SS').aggregate(ss_e0=Sum('e0efforts'))
+    summary['ss_e0'] = ss['ss_e0']
+
+    trams = E0.objects.filter(e0module='TRAMS').aggregate(trams_e0=Sum('e0efforts'))
+    summary['trams_e0'] = trams['trams_e0']
+
+    triad = E0.objects.filter(e0module='TRIAD').aggregate(triad_e0=Sum('e0efforts'))
+    summary['triad_e0'] = triad['triad_e0']
+
+    utility = E0.objects.filter(e0module='UTILITY').aggregate(utility_e0=Sum('e0efforts'))
+    summary['utility_e0'] = utility['utility_e0']
 
     # E1 efforts by application
-    summary['ads_e1'] = E1.objects.filter(
-        e1module='ADS').aggregate(Sum('e1efforts'))
-    summary['cde_e1'] = E1.objects.filter(
-        e1module='CDE').aggregate(Sum('e1efforts'))
-    summary['eas_e1'] = E1.objects.filter(
-        e1module='EAS').aggregate(Sum('e1efforts'))
-    summary['ba_e1'] = E1.objects.filter(
-        e1module='BA').aggregate(Sum('e1efforts'))
-    summary['ecms_e1'] = E1.objects.filter(
-        e1module='ECMS').aggregate(Sum('e1efforts'))
-    summary['elts_e1'] = E1.objects.filter(
-        e1module='ELTS').aggregate(Sum('e1efforts'))
-    summary['emb_e1'] = E1.objects.filter(
-        e1module='Emb').aggregate(Sum('e1efforts'))
-    summary['epp_e1'] = E1.objects.filter(
-        e1module='EPP').aggregate(Sum('e1efforts'))
-    summary['fasb_e1'] = E1.objects.filter(
-        e1module='FASB').aggregate(Sum('e1efforts'))
-    summary['mli_e1'] = E1.objects.filter(
-        e1module='MLI').aggregate(Sum('e1efforts'))
-    summary['rws_e1'] = E1.objects.filter(
-        e1module='RWS').aggregate(Sum('e1efforts'))
-    summary['stmts_e1'] = E1.objects.filter(
-        e1module='STMTS').aggregate(Sum('e1efforts'))
-    summary['ss_e1'] = E1.objects.filter(
-        e1module='SS').aggregate(Sum('e1efforts'))
-    summary['trams_e1'] = E1.objects.filter(
-        e1module='TRAMS').aggregate(Sum('e1efforts'))
-    summary['triad_e1'] = E1.objects.filter(
-        e1module='TRIAD').aggregate(Sum('e1efforts'))
-    summary['utility_e1'] = E1.objects.filter(
-        e1module='UTILITY').aggregate(Sum('e1efforts'))
+    ads = E1.objects.filter(e1module='ADS').aggregate(ads_e1=Sum('e1efforts'))
+    summary['ads_e1'] = ads['ads_e1']
 
-    print(summary)
-    return render(request, 'relapp/emeasumm.html', {'summary': summary})
+    cde = E1.objects.filter(e1module='CDE').aggregate(cde_e1=Sum('e1efforts'))
+    summary['cde_e1'] = cde['cde_e1']
+
+    eas = E1.objects.filter(e1module='EAS').aggregate(eas_e1=Sum('e1efforts'))
+    summary['eas_e1'] = eas['eas_e1']
+
+    ba = E1.objects.filter(e1module='BA').aggregate(ba_e1=Sum('e1efforts'))
+    summary['ba_e1'] = ba['ba_e1']
+
+    ecms = E1.objects.filter(e1module='ECMS').aggregate(ecms_e1=Sum('e1efforts'))
+    summary['ecms_e1'] = ecms['ecms_e1']
+
+    elts = E1.objects.filter(e1module='ELTS').aggregate(elts_e1=Sum('e1efforts'))
+    summary['elts_e1'] = elts['elts_e1']
+
+    emb = E1.objects.filter(e1module='Emb').aggregate(emb_e1=Sum('e1efforts'))
+    summary['emb_e1'] = emb['emb_e1']
+
+    epp = E1.objects.filter(e1module='EPP').aggregate(epp_e1=Sum('e1efforts'))
+    summary['epp_e1'] = epp['epp_e1']
+
+    fasb = E1.objects.filter(e1module='FASB').aggregate(fasb_e1=Sum('e1efforts'))
+    summary['fasb_e1'] = fasb['fasb_e1']
+
+    mli = E1.objects.filter(e1module='MLI').aggregate(mli_e1=Sum('e1efforts'))
+    summary['mli_e1'] = mli['mli_e1']
+
+    rws = E1.objects.filter(e1module='RWS').aggregate(rws_e1=Sum('e1efforts'))
+    summary['rws_e1'] = rws['rws_e1']
+
+    stmts= E1.objects.filter(e1module='STMTS').aggregate(stmts_e1=Sum('e1efforts'))
+    summary['stmts_e1'] = stmts['stmts_e1']
+
+    ss = E1.objects.filter(e1module='SS').aggregate(ss_e1=Sum('e1efforts'))
+    summary['ss_e1'] = ss['ss_e1']
+
+    trams = E1.objects.filter(e1module='TRAMS').aggregate(trams_e1=Sum('e1efforts'))
+    summary['trams_e1'] = trams['trams_e1']
+
+    triad = E1.objects.filter(e1module='TRIAD').aggregate(triad_e1=Sum('e1efforts'))
+    summary['triad_e1'] = triad['triad_e1']
+
+    utility = E1.objects.filter(e1module='UTILITY').aggregate(utility_e1=Sum('e1efforts'))
+    summary['utility_e1'] = utility['utility_e1']
+
+    return render(request, 'relapp/emeasumm.html', {'phase':phase,
+                                                    'projects': projects,
+                                                    'e1summ': e0summ,
+                                                    'e1summ': e1summ,
+                                                    'e0effort': e0,
+                                                    'e1effort': e1,
+                                                    'summary': summary})
 
 
 def emeasearch(request):
@@ -397,7 +500,7 @@ def emeaedite1(request):
 
 
 def emeacal(request):
-    releaseid = 'R4-2017'
+    releaseid = 'R1-2018'
 
     try:
         release = get_object_or_404(RelCalendar, pk=releaseid)

@@ -22,10 +22,12 @@
              </div>
           </div>
          </td>
-       <td><b>Phase :</b> Design</td>
-       <td><b>From :</b> 1-Aug-2017</td>
-       <td><b>To :</b> 23-Aug-2017</td>
-       <td><b>No. of OPPMs :</b> {{ summary.oppmcount }}</td>
+       <td><b>Phase : </b>{{ summary.phase }}</td>
+       <td><b>From : </b>{{ summary.startdte }}</td>
+       <td><b>To : </b>{{ summary.enddte }}</td>
+       <td><b>No. of OPPMs : </b>{{ summary.oppmcount }}</td>
+       <td><b>Total E0 : </b>{{ e0summ.e0summ }}</td>
+       <td><b>Total E1 : </b>{{ e1summ.e1summ }}</td>
        <td><b>RAG : </b><button class="w3-button w3-red"></button></td>
      </tr>
    </table>
@@ -33,7 +35,48 @@
 <br>
 
 <div class="w3-container w3-center">
-<h4><b>Summary by OPPM Status</b></h4>
+   <h4><b>Release Project List</b></h4>
+</div>
+
+<div class="w3-container">
+   <div class="w3-row-padding">
+      <div class="w3-panel w3-card-2 w3-light-grey">
+          <table class="w3-table w3-bordered w3-striped">
+             <tr class="w3-pale-green">
+               <th>Release</th>
+               <th>OPPM</th>
+               <th>Title</th>
+               <th>PV</th>
+               <th>Impacted Countries</th>
+               <th>Impacted PPs</th>
+               <th>Status</th>
+               <!-- <th>E0</th>
+               <th>E1</th> -->
+             </tr>
+
+             {% for project in projects.all  %}
+             <tr>
+               <td>{{ project.release }}</td>
+               <td>{{ project.oppm }}</td>
+               <td>{{ project.title }}</td>
+               <td>{{ project.pv }}</td>
+               <td>{{ project.impactedcountries }}</td>
+               <td>{{ project.impactedpps }}</td>
+               <td>{{ project.status }}</td>
+               <!-- {% for effort in e0effort.all %}
+                  <td>{{ e0effort.e0 }}</td>
+               {% endfor %} -->
+
+               <!-- <td>{{ project.e1 }}</td> -->
+             </tr>
+             {% endfor %}
+          </table>
+      </div>
+   </div>
+</div>
+
+<div class="w3-container w3-center">
+   <h4><b>Summary by OPPM Status</b></h4>
 </div>
 
 <div class="w3-container">
@@ -49,29 +92,99 @@
             </tr>
 
             <tr>
-               <td>Pending Requirements</td>
-               <td>{{ summary.pend_req_count }}</td>
+               <td>Analysis WIP</td>
+               <td>{{ summary.analysis_wip_count }}</td>
+               <td>{{ summary.pend_e0wip_count }}</td>
+               <td>{{ summary.pend_e1wip_count }}</td>
+            </tr>
+
+            <tr>
+               <td>Canceled</td>
+               <td>{{ summary.canc_count }}</td>
                <td>200</td>
                <td>210</td>
             </tr>
 
             <tr>
-               <td>Pending Clarifications</td>
-               <td>{{ summary.pend_clar_count }}</td>
-               <td>20</td>
-               <td>TBD</td>
+               <td>E1 Provided</td>
+               <td>{{ summary.E1_provided_count }}</td>
+               <td>200</td>
+               <td>210</td>
             </tr>
 
             <tr>
-               <td>E0 WIP</td>
-               <td>{{ summary.pend_e0wip_count }}</td>
-               <td>20</td>
-               <td>TBD</td>
+               <td>E1 Review by Dev</td>
+               <td>{{ summary.E1_review_dev_count }}</td>
+               <td>200</td>
+               <td>210</td>
             </tr>
 
             <tr>
                <td>E1 WIP</td>
-               <td>{{ summary.pend_e1wip_count }}</td>
+               <td>{{ summary.E1_wip_count }}</td>
+               <td>20</td>
+               <td>TBD</td>
+            </tr>
+
+            <tr>
+               <td>FR Internal Review WIP</td>
+               <td>{{ summary.FR_int_review_wip_count }}</td>
+               <td>20</td>
+               <td>TBD</td>
+            </tr>
+
+            <tr>
+               <td>FR NA</td>
+               <td>{{ summary.FR_na_count }}</td>
+               <td>20</td>
+               <td>TBD</td>
+            </tr>
+
+            <tr>
+               <td>FR Signed Off</td>
+               <td>{{ summary.FR_signed_off_count }}</td>
+               <td>20</td>
+               <td>TBD</td>
+            </tr>
+
+            <tr>
+               <td>FR WIP</td>
+               <td>{{ summary.FR_wip_count }}</td>
+               <td>20</td>
+               <td>TBD</td>
+            </tr>
+
+            <tr>
+               <td>No Cards Impact</td>
+               <td>{{ summary.no_cards_impact_count }}</td>
+               <td>20</td>
+               <td>TBD</td>
+            </tr>
+
+            <tr>
+               <td>Pending Clarification from Biz</td>
+               <td>{{ summary.pend_clarification_biz_count }}</td>
+               <td>20</td>
+               <td>TBD</td>
+            </tr>
+
+            <tr>
+               <td>Pending FR Walk Thru</td>
+               <td>{{ summary.pend_FR_walkthru_count }}</td>
+               <td>20</td>
+               <td>TBD</td>
+            </tr>
+
+            <tr>
+               <td>Pending Requirements</td>
+               <td>{{ summary.pend_req_count }}</td>
+               <td>20</td>
+               <td>TBD</td>
+            </tr>
+
+            <tr>
+               <td>SOW</td>
+               <td>{{ summary.sow_count }}</td>
                <td>20</td>
                <td>TBD</td>
             </tr>
@@ -112,42 +225,42 @@
 
             <tr>
                <td>E0</td>
-               <td>{{ summary.ads_e0.e0efforts_sum }}</td>
-               <td>{{ summary.cde_e0.e0efforts_sum }}</td>
-               <td>{{ summary.eas_e0.e0efforts_sum }}</td>
-               <td>{{ summary.ba_e0.e0efforts_sum }}</td>
-               <td>{{ summary.ecms_e0.e0efforts_sum }}</td>
-               <td>{{ summary.elts_e0.e0efforts_sum }}</td>
-               <td>{{ summary.emb_e0.e0efforts_sum }}</td>
-               <td>{{ summary.epp_e0.e0efforts_sum }}</td>
-               <td>{{ summary.fasb_e0.e0efforts_sum }}</td>
-               <td>{{ summary.mli_e0.e0efforts_sum }}</td>
-               <td>{{ summary.rws_e0.e0efforts_sum }}</td>
-               <td>{{ summary.stmts_e0.e0efforts_sum }}</td>
-               <td>{{ summary.ss_e0.e0efforts_sum }}</td>
-               <td>{{ summary.trams_e0.e0efforts_sum }}</td>
-               <td>{{ summary.triad_e0.e0efforts_sum }}</td>
-               <td>{{ summary.utility_e0.e0efforts_sum }}</td>
+               <td>{{ summary.ads_e0 }}</td>
+               <td>{{ summary.cde_e0 }}</td>
+               <td>{{ summary.eas_e0 }}</td>
+               <td>{{ summary.ba_e0 }}</td>
+               <td>{{ summary.ecms_e0 }}</td>
+               <td>{{ summary.elts_e0 }}</td>
+               <td>{{ summary.emb_e0 }}</td>
+               <td>{{ summary.epp_e0 }}</td>
+               <td>{{ summary.fasb_e0 }}</td>
+               <td>{{ summary.mli_e0 }}</td>
+               <td>{{ summary.rws_e0 }}</td>
+               <td>{{ summary.stmts_e0 }}</td>
+               <td>{{ summary.ss_e0 }}</td>
+               <td>{{ summary.trams_e0 }}</td>
+               <td>{{ summary.triad_e0 }}</td>
+               <td>{{ summary.utility_e0 }}</td>
             </tr>
 
             <tr>
                <td>E1</td>
-               <td>{{ summary.ads_e1.e1efforts_sum }}</td>
-               <td>{{ summary.cde_e1.e1efforts_sum }}</td>
-               <td>{{ summary.eas_e1.e1efforts_sum }}</td>
-               <td>{{ summary.ba_e1.e1efforts_sum }}</td>
-               <td>{{ summary.ecms_e1.e1efforts_sum }}</td>
-               <td>{{ summary.elts_e1.e1efforts_sum }}</td>
-               <td>{{ summary.emb_e1.e1efforts_sum }}</td>
-               <td>{{ summary.epp_e1.e1efforts_sum }}</td>
-               <td>{{ summary.fasb_e1.e1efforts_sum }}</td>
-               <td>{{ summary.mli_e1.e1efforts_sum }}</td>
-               <td>{{ summary.rws_e1.e1efforts_sum }}</td>
-               <td>{{ summary.stmts_e1.e1efforts_sum }}</td>
-               <td>{{ summary.ss_e1.e1efforts_sum }}</td>
-               <td>{{ summary.trams_e1.e1efforts_sum }}</td>
-               <td>{{ summary.triad_e1.e1efforts_sum }}</td>
-               <td>{{ summary.utility_e1.e1efforts_sum }}</td>
+               <td>{{ summary.ads_e1 }}</td>
+               <td>{{ summary.cde_e1 }}</td>
+               <td>{{ summary.eas_e1 }}</td>
+               <td>{{ summary.ba_e1 }}</td>
+               <td>{{ summary.ecms_e1 }}</td>
+               <td>{{ summary.elts_e1 }}</td>
+               <td>{{ summary.emb_e1 }}</td>
+               <td>{{ summary.epp_e1 }}</td>
+               <td>{{ summary.fasb_e1 }}</td>
+               <td>{{ summary.mli_e1 }}</td>
+               <td>{{ summary.rws_e1 }}</td>
+               <td>{{ summary.stmts_e1 }}</td>
+               <td>{{ summary.ss_e1 }}</td>
+               <td>{{ summary.trams_e1 }}</td>
+               <td>{{ summary.triad_e1 }}</td>
+               <td>{{ summary.utility_e1 }}</td>
             </tr>
          </table>
       </div>
