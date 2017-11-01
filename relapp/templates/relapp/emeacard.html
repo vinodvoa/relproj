@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 {% extends "relapp/base.html" %}
 
 {% block content %}
@@ -57,7 +56,7 @@
         <p><b>Inv Sub Category  :</b> {{ project.invsubcat }}</p>
         <p><b>Remarks           :</b> {{ project.remarks }}</p>
         <p><b>Status            :</b> {{ project.status }}</p>
-        <p><b>Added Date        :</b> {{ project.adddte }}</p>
+        <p><b>Added Date        :</b> {{ project.adddte|date:"d-M-Y" }}</p>
       </div>
     </div>
   </div>
@@ -81,10 +80,10 @@
                 <th>E0</th>
             </tr>
 
-            {% for e0 in e0.all  %}
+            {% for e0recs in e0recs.all  %}
             <tr>
-                <td>{{ e0.e0module }}</td>
-                <td>{{ e0.e0efforts }}</td>
+               <td>{{ e0recs.e0module }}</td>
+               <td>{{ e0recs.e0efforts }}</td>
             </tr>
             {% endfor %}
 
@@ -112,10 +111,10 @@
                 <th>E1</th>
             </tr>
 
-            {% for e1 in e1.all  %}
+            {% for e1recs in e1recs.all  %}
             <tr>
-                <td>{{ e1.e1module }}</td>
-                <td>{{ e1.e1efforts }}</td>
+                <td>{{ e1recs.e1module }}</td>
+                <td>{{ e1recs.e1efforts }}</td>
             </tr>
             {% endfor %}
 

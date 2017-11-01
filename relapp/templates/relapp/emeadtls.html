@@ -24,7 +24,7 @@
       <th>PM</th>
     </tr>
 
-    {% for project in projects.all  %}
+    {% for project in projects.all %}
     <tr>
       <td>{{ project.release }}</td>
       <td><a href="{% url 'emeacard' project.oppm %}"> {{ project.oppm }} </a></td>
@@ -38,6 +38,13 @@
     </tr>
     {% endfor %}
 
+    {% for e0qset in e0qset.all %}
+    <tr>
+      <td>{{ e0qset.e0module }}</td>
+      <td>{{ e0qset.e0efforts }}</td>
+    </tr>
+    {% endfor %}
+    
   </table>
 </div>
 

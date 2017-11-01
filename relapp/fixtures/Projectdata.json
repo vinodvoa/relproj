@@ -240,5 +240,27 @@
          "status": "Pending FR Walk Thru",
          "remarks": "Remarks11"
       }
+   },
+   {
+      "model": "relapp.Project",
+      "pk": "oppm",
+      "fields":{
+         "oppm": "E-3000001",
+         "release": "R2-2018",
+         "title": "AEC OVLM",
+         "pv": "P3000001",
+         "impactedcountries": "BH, UAE, PL, RU",
+         "impactedpps": "ADS, CDE",
+         "funding": "Incremental",
+         "invtype": "Build the Bank",
+         "invcat": "Saftey and Soundness",
+         "requestchannel": "RCR",
+         "bsgleadba": "Kilic, Cem",
+         "bsgba": "Arunachalam, Ulagappa",
+         "pm": "Dabkowski, Boguslaw",
+         "adddte": "2017-10-11",
+         "status": "Pending FR Walk Thru",
+         "remarks": "Remarks11"
+      }
    }
 ]

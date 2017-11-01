@@ -13,12 +13,12 @@
      <tr class="w3-pale-green">
         <td><b>Release :</b>
           <div class="w3-dropdown-hover">
-             <button class="w3-button">Release</button>
+             <button class="w3-button">R1-2018</button>
              <div class="w3-dropdown-content w3-bar-block w3-card-4">
-               <a href="#" class="w3-bar-item w3-button">R1</a>
-               <a href="#" class="w3-bar-item w3-button">R2</a>
-               <a href="#" class="w3-bar-item w3-button">R3</a>
-               <a href="#" class="w3-bar-item w3-button">R4</a>
+               <a href="#" class="w3-bar-item w3-button">R1-2018</a>
+               <a href="#" class="w3-bar-item w3-button">R2-2018</a>
+               <a href="#" class="w3-bar-item w3-button">R3-2018</a>
+               <a href="#" class="w3-bar-item w3-button">R4-2018</a>
              </div>
           </div>
          </td>
@@ -35,7 +35,7 @@
 <br>
 
 <div class="w3-container w3-center">
-   <h4><b>Release Project List</b></h4>
+   <h4><b>R1-2018 Project List</b></h4>
 </div>
 
 <div class="w3-container">
@@ -43,31 +43,25 @@
       <div class="w3-panel w3-card-2 w3-light-grey">
           <table class="w3-table w3-bordered w3-striped">
              <tr class="w3-pale-green">
-               <th>Release</th>
+               <!-- <th>Release</th> -->
                <th>OPPM</th>
                <th>Title</th>
                <th>PV</th>
                <th>Impacted Countries</th>
                <th>Impacted PPs</th>
                <th>Status</th>
-               <!-- <th>E0</th>
-               <th>E1</th> -->
              </tr>
 
-             {% for project in projects.all  %}
+             {% for project in projects.all %}
              <tr>
-               <td>{{ project.release }}</td>
-               <td>{{ project.oppm }}</td>
+               <!-- <td>{{ project.release }}</td> -->
+               <td><a href="{% url 'emeacard' project.oppm %}"> {{ project.oppm }} </a></td>
                <td>{{ project.title }}</td>
                <td>{{ project.pv }}</td>
                <td>{{ project.impactedcountries }}</td>
                <td>{{ project.impactedpps }}</td>
                <td>{{ project.status }}</td>
-               <!-- {% for effort in e0effort.all %}
-                  <td>{{ e0effort.e0 }}</td>
-               {% endfor %} -->
-
-               <!-- <td>{{ project.e1 }}</td> -->
+               <td>{{ e0effort.e0 }}</td>
              </tr>
              {% endfor %}
           </table>

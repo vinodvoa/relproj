@@ -108,5 +108,45 @@
          "e1efforts": 16.00,
          "e1providedte": "2017-10-02"
          }
-      }
+      },
+      {
+         "model": "relapp.E1",
+         "pk": "12",
+         "fields":{
+            "e1oppm": "E-2000001",
+            "e1module": "ADS",
+            "e1efforts": 21.00,
+            "e1providedte": "2017-10-11"
+            }
+         },
+         {
+            "model": "relapp.E1",
+            "pk": "13",
+            "fields":{
+               "e1oppm": "E-2000001",
+               "e1module": "CDE",
+               "e1efforts": 15.00,
+               "e1providedte": "2017-10-11"
+               }
+            },
+            {
+               "model": "relapp.E1",
+               "pk": "14",
+               "fields":{
+                  "e1oppm": "E-3000001",
+                  "e1module": "ADS",
+                  "e1efforts": 95.00,
+                  "e1providedte": "2017-10-11"
+                  }
+               },
+               {
+                  "model": "relapp.E1",
+                  "pk": "15",
+                  "fields":{
+                     "e1oppm": "E-3000001",
+                     "e1module": "CDE",
+                     "e1efforts": 85.00,
+                     "e1providedte": "2017-10-11"
+                     }
+                  }
 ]

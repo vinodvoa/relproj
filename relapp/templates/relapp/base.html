@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- {% load staticfiles %} -->
+{% load staticfiles %}
 <html>
    <head>
       <meta charset="utf-8">
@@ -71,6 +71,16 @@
         <a href="#" class="w3-bar-item w3-button w3-large">Resource</a>
 
         <div class="w3-dropdown-hover">
+            <button class="w3-button w3-large">Edit</button>
+
+            <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                <a href="{% url 'emeaadd' %}" class="w3-bar-item w3-button">Project</a>
+                <a href="{% url 'emeaadde0' %}" class="w3-bar-item w3-button">E0</a>
+                <a href="{% url 'emeaadde1' %}" class="w3-bar-item w3-button">E1</a>
+            </div>
+        </div>
+
+        <div class="w3-dropdown-hover">
             <button class="w3-button w3-large">Contact</button>
 
             <div class="w3-dropdown-content w3-bar-block w3-card-4">
@@ -92,8 +102,8 @@
        </form>
     </div>
 
-    <br>
-    <br>
+    <!-- <br>
+    <br> -->
 
     {% block content %}
     {% endblock %}
@@ -106,11 +116,16 @@
       <p class="w3-left">Msg: </p>
 
       {% if messages %}
-      <ul class="messages w3-left w3-red">
-         {% for message in messages %}
-         <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-         {% endfor %}
-      </ul>
+         <ul class="messages w3-left">
+            {% for message in messages %}
+               <li class="w3-red"
+                  {% if message.tags %}
+                     class="{{ message.tags }}"
+                  {% endif %}>
+                  {{ message }}
+               </li>
+            {% endfor %}
+         </ul>
       {% endif %}
 
     </footer>
